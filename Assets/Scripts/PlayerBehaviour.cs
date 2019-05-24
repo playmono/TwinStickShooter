@@ -4,16 +4,27 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    // MOVEMENT
     private float currentSpeed = 0.0f;
     private Vector3 lastMovement = new Vector3();
 
     public float playerSpeed = 4.0f;
+
+    // FIRE
+
+    private float timeUntilNextFire = 0.0f;
+
+    public Transform laser;
+    public float laserDistance = 0.2f;
+    public float timeBetweenFires = 0.3f;
+    public List<KeyCode> shootButton;
 
     // Update is called once per frame
     private void Update()
     {
         this.Rotate();
         this.Move();
+        this.Fire();
     }
 
     // Al rotar la nave, esta mirará el puntero del ratón
@@ -30,7 +41,6 @@ public class PlayerBehaviour : MonoBehaviour
 
         // Vector de cuatro dimensiones
         Quaternion rot = Quaternion.Euler(new Vector3(0, 0, angle + 90));
-
         this.transform.rotation = rot;
     }
 
@@ -54,5 +64,29 @@ public class PlayerBehaviour : MonoBehaviour
             this.transform.Translate(movement * this.currentSpeed * Time.deltaTime, Space.World);
             this.currentSpeed *= 0.9f;
         }
+    }
+
+    private void Fire()
+    {
+        foreach (KeyCode key in shootButton) {
+            if (Input.GetKey(key) && this.timeUntilNextFire < 0) {
+                this.timeUntilNextFire = this.timeBetweenFires;
+                this.ShootLaser();
+                break;
+            }
+        }
+
+        this.timeUntilNextFire -= Time.deltaTime;
+    }
+
+    private void ShootLaser()
+    {
+        Vector3 laserPos = this.transform.position;
+
+        float rotationAngle = this.transform.localEulerAngles.z - 90;
+        laserPos.x += Mathf.Cos(rotationAngle * Mathf.Deg2Rad) * laserDistance;
+        laserPos.y += Mathf.Sin(rotationAngle * Mathf.Deg2Rad) * laserDistance;
+
+        Instantiate(laser, laserPos, this.transform.rotation);
     }
 }
