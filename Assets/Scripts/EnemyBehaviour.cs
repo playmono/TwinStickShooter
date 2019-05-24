@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyBehaviour : MonoBehaviour
 {
 	public int health = 2;
+	public Transform explosion;
+	public AudioClip hitSound;
 
 	private void OnTriggerEnter2D(Collider2D theCollider)
 	{
@@ -12,13 +14,22 @@ public class EnemyBehaviour : MonoBehaviour
 			LaserBehaviour laser = theCollider.gameObject.GetComponent("LaserBehaviour") as LaserBehaviour;
 			this.health -= laser.damage;
 
-			Destroy(theCollider.gameObject);
+			Transform.Destroy(theCollider.gameObject);
 
 			if (this.health <= 0) {
-				Destroy(this.gameObject);
+				Transform.Destroy(this.gameObject);
 
 				GameController controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 				controller.KillEnemy();
+
+				if (this.explosion) {
+					Transform t = Transform.Instantiate(explosion, this.transform.position, this.transform.rotation);
+					GameObject exploder = t.gameObject;
+
+					Transform.Destroy(exploder, 2.0f);
+
+					this.GetComponent<AudioSource>().PlayOneShot(hitSound);
+				}
 			}
 		}
 

@@ -37,7 +37,7 @@ public class GameController : MonoBehaviour
     				enemyPos.x = randDirection.x * randDistance;
     				enemyPos.y = randDirection.y * randDistance;
 
-    				Instantiate(this.enemy, enemyPos, this.transform.rotation);
+    				Transform.Instantiate(this.enemy, enemyPos, this.transform.rotation);
 
     				this.currentNumberOfEnemies++;
 
