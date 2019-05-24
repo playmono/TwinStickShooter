@@ -517,6 +517,7 @@ MonoBehaviour:
   laserDistance: -0.3
   timeBetweenFires: 0.3
   shootButton: 2000000043010000
+  shootSound: {fileID: 8300000, guid: 4f1834fcc7e0d4a7eae3f9e7f8e5b393, type: 3}
 --- !u!58 &1156301694
 CircleCollider2D:
   m_ObjectHideFlags: 0
