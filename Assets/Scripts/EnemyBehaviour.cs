@@ -21,6 +21,7 @@ public class EnemyBehaviour : MonoBehaviour
 
 				GameController controller = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 				controller.KillEnemy();
+				controller.sumScore(10);
 
 				if (this.explosion) {
 					Transform t = Transform.Instantiate(explosion, this.transform.position, this.transform.rotation);
