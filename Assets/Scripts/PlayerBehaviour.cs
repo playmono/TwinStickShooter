@@ -31,9 +31,11 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        this.Rotate();
-        this.Move();
-        this.Fire();
+        if (!PauseMenuBehaviour.isPaused) {
+            this.Rotate();
+            this.Move();
+            this.Fire();
+        }
     }
 
     // Al rotar la nave, esta mirará el puntero del ratón
