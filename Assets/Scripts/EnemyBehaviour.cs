@@ -7,7 +7,9 @@ public class EnemyBehaviour : MonoBehaviour
 	public int health = 2;
 	public Transform explosion;
 	public AudioClip hitSound;
+    public GameObject damageSprites;
 
+    
 	private void OnTriggerEnter2D(Collider2D theCollider)
 	{
 		if (theCollider.gameObject.name.Contains("laser")) {
@@ -31,7 +33,10 @@ public class EnemyBehaviour : MonoBehaviour
 
 					this.GetComponent<AudioSource>().PlayOneShot(hitSound);
 				}
-			}
+			} else if (this.health == 1)
+            {
+                damageSprites.SetActive(true);
+            }
 		}
 
 		if (theCollider.gameObject.name.Contains("playerShip")) {
